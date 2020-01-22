@@ -1,6 +1,6 @@
 class Pub
 
-  attr_reader :name
+  attr_reader :name, :till
 
   def initialize(name, till, beers)
     @name = name
@@ -8,4 +8,7 @@ class Pub
     @beers = beers
   end
 
+  def number_of_beers
+    @beers.count
+  end
 end
