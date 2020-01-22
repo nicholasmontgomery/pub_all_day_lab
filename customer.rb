@@ -18,11 +18,17 @@ class Customer
     end
   end
 
+  def increase_drunkeness(number)
+    @drunkeness += number
+  end
+
+
   def buy_beer_from_pub(pub, drink)
-    if @wallet < drink.price || @age < 18
+    if @wallet < drink.price || @age < 18 || @drunkeness >= 10
       return "Not tonight, son"
     else
       reduce_money_wallet(drink.price)
+      increase_drunkeness(drink.alcohol_level)
     #reduce customer money
     #check if money was taken, if not, produce string.
       pub.sell_beer(drink.price)

@@ -11,6 +11,10 @@ class CustomerTest < MiniTest::Test
     @customer1 = Customer.new("Andrew", 5, 28)
     @customer2 = Customer.new("Nick", 1, 25)
     @customer3 = Customer.new("Eugene", 10, 15)
+
+    @drink = Drink.new("Bulmers", 2, 6)
+    @pub1 = Pub.new("Chanter", 0, @drink)
+
   end
 
   def test_get_customer_name
@@ -29,6 +33,11 @@ class CustomerTest < MiniTest::Test
     assert_equal(0, @customer1.drunkeness)
   end
 
+  def test_increase_drunkeness
+    @customer1.increase_drunkeness(@drink.alcohol_level)
+    assert_equal(6, @customer1.drunkeness)
+  end
+
   def test_reduce_money_wallet
     @customer1.reduce_money_wallet(3)
     assert_equal(2, @customer1.wallet)
@@ -39,26 +48,29 @@ class CustomerTest < MiniTest::Test
   end
 
   def test_buy_beer_from_pub
-    @drink = Drink.new("Bulmers", 2, 6)
-    @pub1 = Pub.new("Chanter", 0, @drink)
     @customer1.buy_beer_from_pub(@pub1, @drink)
     assert_equal(3, @customer1.wallet)
     assert_equal(2, @pub1.till)
+    assert_equal(6, @customer1.drunkeness)
   end
 
-  def test_not_enough_money_to_buy_beer
-    @drink = Drink.new("Bulmers", 2, 6)
-    @pub1 = Pub.new("Chanter", 0, @drink)
+  def test_not_have_enough_money_to_buy_beer
     @customer2.buy_beer_from_pub(@pub1, @drink)
     assert_equal(1, @customer2.wallet)
     assert_equal(0, @pub1.till)
   end
 
   def test_pub_does_not_sell_to_youngster
-    @drink = Drink.new("Bulmers", 2, 6)
-    @pub1 = Pub.new("Chanter", 0, @drink)
     @customer3.buy_beer_from_pub(@pub1, @drink)
     assert_equal(10, @customer3.wallet)
+    assert_equal(0, @pub1.till)
+  end
+
+  def test_pub_does_not_sell_to_drunkard
+    @customer1.increase_drunkeness(10)
+    @customer1.buy_beer_from_pub(@pub1, @drink)
+    assert_equal(10, @customer1.drunkeness)
+    assert_equal(5, @customer1.wallet)
     assert_equal(0, @pub1.till)
   end
 
