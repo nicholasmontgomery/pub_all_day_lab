@@ -23,4 +23,9 @@ class CustomerTest < MiniTest::Test
     @customer1.reduce_money_wallet(3)
     assert_equal(2, @customer1.wallet)
   end
+
+  def test_customer_has_enough_money
+    assert_equal("Not enough funds", @customer2.reduce_money_wallet(3))
+  end
+
 end

@@ -9,6 +9,12 @@ class Customer
   end
 
   def reduce_money_wallet(amount)
-    @wallet -= amount
+    if @wallet < amount
+      return "Not enough funds"
+    else
+      @wallet -= amount
+    end
   end
+
+
 end
