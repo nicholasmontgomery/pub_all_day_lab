@@ -19,9 +19,14 @@ class Customer
   end
 
   def buy_beer_from_pub(pub, drink)
-   reduce_money_wallet(drink.price)
+    if @wallet < drink.price || @age < 18
+      return "Not tonight, son"
+    else
+      reduce_money_wallet(drink.price)
     #reduce customer money
-    pub.sell_beer(drink.price)
+    #check if money was taken, if not, produce string.
+      pub.sell_beer(drink.price)
+    end
     #add money to till
   end
 

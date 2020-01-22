@@ -9,7 +9,8 @@ require_relative('../pub')
 class CustomerTest < MiniTest::Test
   def setup
     @customer1 = Customer.new("Andrew", 5, 28)
-    @customer2 = Customer.new("Nick", 1, 16)
+    @customer2 = Customer.new("Nick", 1, 25)
+    @customer3 = Customer.new("Eugene", 10, 15)
   end
 
   def test_get_customer_name
@@ -21,7 +22,7 @@ class CustomerTest < MiniTest::Test
   end
 
   def test_get_age
-    assert_equal(16, @customer2.age)
+    assert_equal(25, @customer2.age)
   end
 
   def test_get_drunkeness
@@ -43,8 +44,22 @@ class CustomerTest < MiniTest::Test
     @customer1.buy_beer_from_pub(@pub1, @drink)
     assert_equal(3, @customer1.wallet)
     assert_equal(2, @pub1.till)
-
   end
 
+  def test_not_enough_money_to_buy_beer
+    @drink = Drink.new("Bulmers", 2, 6)
+    @pub1 = Pub.new("Chanter", 0, @drink)
+    @customer2.buy_beer_from_pub(@pub1, @drink)
+    assert_equal(1, @customer2.wallet)
+    assert_equal(0, @pub1.till)
+  end
+
+  def test_pub_does_not_sell_to_youngster
+    @drink = Drink.new("Bulmers", 2, 6)
+    @pub1 = Pub.new("Chanter", 0, @drink)
+    @customer3.buy_beer_from_pub(@pub1, @drink)
+    assert_equal(10, @customer3.wallet)
+    assert_equal(0, @pub1.till)
+  end
 
 end
