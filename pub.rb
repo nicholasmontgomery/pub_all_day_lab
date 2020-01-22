@@ -11,4 +11,8 @@ class Pub
   def number_of_beers
     @beers.count
   end
+
+  def sell_beer(amount)
+    @till += amount
+  end
 end

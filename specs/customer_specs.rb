@@ -4,6 +4,7 @@ Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
 
 require_relative('../customer')
 require_relative('../drink')
+require_relative('../pub')
 
 class CustomerTest < MiniTest::Test
   def setup
@@ -27,5 +28,15 @@ class CustomerTest < MiniTest::Test
   def test_customer_has_enough_money
     assert_equal("Not enough funds", @customer2.reduce_money_wallet(3))
   end
+
+  def test_buy_beer_from_pub
+    @drink = Drink.new("Bulmers", 2)
+    @pub1 = Pub.new("Chanter", 0, @drink)
+    @customer1.buy_beer_from_pub(@pub1, @drink)
+    assert_equal(3, @customer1.wallet)
+    assert_equal(2, @pub1.till)
+
+  end
+
 
 end

@@ -16,5 +16,11 @@ class Customer
     end
   end
 
+  def buy_beer_from_pub(pub, drink)
+   reduce_money_wallet(drink.price)
+    #reduce customer money
+    pub.sell_beer(drink.price)
+    #add money to till
+  end
 
 end
